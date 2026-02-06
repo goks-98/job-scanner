@@ -1,0 +1,42 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Database
+data/jobs.db
+
+# Generated resumes (contain personal info)
+data/resumes/*.docx
+
+# Config with secrets (users should copy from template)
+config/settings.yaml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keep directory structure
+!data/.gitkeep
+!data/resumes/.gitkeep
+!logs/.gitkeep

@@ -1,0 +1,83 @@
+# FAANG Job Scanner Configuration Template
+# Copy this file to settings.yaml and fill in your values
+
+# Email settings (Gmail SMTP)
+email:
+  sender: "your-email@gmail.com"      # Your Gmail address
+  password: "your-app-password"        # Gmail App Password (NOT your regular password)
+  recipient: "your-email@gmail.com"   # Where to send notifications
+  smtp_server: "smtp.gmail.com"
+  smtp_port: 587
+
+# Job search preferences
+job_preferences:
+  titles:
+    - "Data Engineer"
+    - "Data Platform Engineer"
+    - "Analytics Engineer"
+    - "ETL Developer"
+    - "Big Data Engineer"
+  
+  # Location priorities (in order of preference)
+  locations:
+    priority:
+      - "Poland"
+      - "Spain"
+      - "Germany"
+      - "Netherlands"
+      - "Ireland"
+      - "France"
+      - "Italy"
+      - "Portugal"
+      - "Belgium"
+      - "Austria"
+      - "Sweden"
+      - "Denmark"
+      - "Finland"
+      - "Czech Republic"
+    secondary:
+      - "Dubai"
+      - "Abu Dhabi"
+      - "UAE"
+  
+  # Maximum job age in days
+  max_age_days: 30
+
+# Scraper settings
+scrapers:
+  faang:
+    - name: "google"
+      enabled: true
+      base_url: "https://www.google.com/about/careers/applications/jobs/results"
+    - name: "meta"
+      enabled: true
+      base_url: "https://www.metacareers.com/jobs"
+    - name: "apple"
+      enabled: true
+      base_url: "https://jobs.apple.com/en-us/search"
+    - name: "netflix"
+      enabled: true
+      base_url: "https://jobs.netflix.com/search"
+  
+  uae:
+    - name: "linkedin"
+      enabled: true
+      base_url: "https://www.linkedin.com/jobs/search"
+    - name: "bayt"
+      enabled: true
+      base_url: "https://www.bayt.com/en/uae/jobs"
+    - name: "gulftalent"
+      enabled: true
+      base_url: "https://www.gulftalent.com/jobs"
+
+# Output settings
+output:
+  resume_dir: "data/resumes"
+  database_path: "data/jobs.db"
+  log_file: "logs/app.log"
+
+# Selenium settings
+selenium:
+  headless: true
+  timeout: 30
+  user_agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"

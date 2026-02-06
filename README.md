@@ -1,0 +1,126 @@
+# FAANG Job Scanner & ATS Resume Generator
+
+Automatically scan Data Engineer positions from Big Tech company career pages, filter for EU/UAE locations, generate ATS-optimized resumes tailored to each job, and receive email notifications.
+
+## Features
+
+- 🔍 **Multi-source Job Scanning**: Scrapes Google, Meta, Apple, Netflix, LinkedIn, Bayt, and GulfTalent
+- 🇪🇺 **EU Priority**: Filters and prioritizes jobs in European Union countries
+- 🇦🇪 **UAE Support**: Also scans local UAE job boards
+- 📄 **ATS Resume Generation**: Creates tailored .docx resumes for each job posting
+- 📧 **Email Notifications**: Sends job alerts with attached resumes via Gmail
+
+## Quick Start
+
+### 1. Install Dependencies
+
+```powershell
+cd "e:\Development Projects\resume-projects"
+pip install -r requirements.txt
+```
+
+### 2. Configure Settings
+
+Edit `config/settings.yaml`:
+
+```yaml
+email:
+  sender: "your-email@gmail.com"
+  password: "your-gmail-app-password"  # See below for setup
+  recipient: "gokul12cool@gmail.com"
+```
+
+### 3. Set Up Gmail App Password
+
+1. Go to [Google Account Security](https://myaccount.google.com/security)
+2. Enable 2-Factor Authentication if not already enabled
+3. Go to "App passwords" 
+4. Generate a new app password for "Mail"
+5. Copy the 16-character password to `config/settings.yaml`
+
+### 4. Run the Scanner
+
+```powershell
+# Full scan with notifications
+python main.py
+
+# Test email configuration
+python main.py --test-email
+
+# Generate sample resume
+python main.py --test-resume
+
+# View database statistics
+python main.py --stats
+
+# Run specific scrapers only
+python main.py --only google meta netflix
+
+# Scan without sending email
+python main.py --no-email
+
+# Verbose output
+python main.py -v
+```
+
+## Project Structure
+
+```
+resume-projects/
+├── Gokul CV.pdf            # Your original resume
+├── main.py                 # Main entry point
+├── config/
+│   └── settings.yaml       # Configuration
+├── src/
+│   ├── scrapers/           # Job scrapers for each company
+│   ├── notifications/      # Email notification service
+│   ├── resume/             # Resume parser, optimizer, generator
+│   ├── database/           # SQLite job storage
+│   └── utils/              # Helper utilities
+├── data/
+│   ├── jobs.db             # SQLite database
+│   └── resumes/            # Generated resumes
+└── logs/
+    └── app.log             # Application logs
+```
+
+## Configuration Options
+
+### Job Preferences
+
+```yaml
+job_preferences:
+  titles:
+    - "Data Engineer"
+    - "Data Platform Engineer"
+    - "Analytics Engineer"
+  locations:
+    priority:      # EU countries (searched first)
+      - "Poland"
+      - "Spain"
+      - "Germany"
+    secondary:     # UAE locations
+      - "Dubai"
+      - "Abu Dhabi"
+  max_age_days: 30  # Only jobs posted within last 30 days
+```
+
+## Troubleshooting
+
+### Scrapers Not Finding Jobs
+- Career pages frequently change their structure
+- Try running with `-v` for verbose output
+- Some scrapers require Chrome to be installed
+
+### Email Not Sending
+- Ensure you're using an App Password, not your regular password
+- Check that 2FA is enabled on your Google account
+- Verify the sender email in settings.yaml
+
+### Resume Generation Issues
+- Ensure `Gokul CV.pdf` is in the project root
+- Check that python-docx is installed correctly
+
+## License
+
+Personal project - Not for redistribution.

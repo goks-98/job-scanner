@@ -1,0 +1,28 @@
+# Web Scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+
+# PDF Processing
+PyMuPDF>=1.23.0
+
+# Document Generation
+python-docx>=1.1.0
+
+# Configuration
+pyyaml>=6.0.0
+
+# NLP for keyword extraction
+spacy>=3.7.0
+nltk>=3.8.0
+
+# Database
+sqlalchemy>=2.0.0
+
+# Email
+# (uses built-in smtplib, no extra package needed)
+
+# Utilities
+python-dateutil>=2.8.0
+tqdm>=4.66.0
