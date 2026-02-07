@@ -22,23 +22,8 @@ job_preferences:
   locations:
     priority:
       - "Poland"
-      - "Spain"
-      - "Germany"
-      - "Netherlands"
-      - "Ireland"
-      - "France"
-      - "Italy"
-      - "Portugal"
-      - "Belgium"
-      - "Austria"
-      - "Sweden"
-      - "Denmark"
-      - "Finland"
-      - "Czech Republic"
     secondary:
       - "Dubai"
-      - "Abu Dhabi"
-      - "UAE"
   
   # Maximum job age in days
   max_age_days: 30
