@@ -13,7 +13,7 @@ Automatically scan Data Engineer positions from Big Tech company career pages, g
 ### 1. Install Dependencies
 
 ```powershell
-cd "e:\Development Projects\resume-projects"
+cd "project-folder/resume-projects"
 pip install -r requirements.txt
 ```
 
@@ -65,7 +65,7 @@ python main.py -v
 
 ```
 resume-projects/
-├── Gokul CV.pdf            # Your original resume
+├── sample-resume.pdf       # Your original resume
 ├── main.py                 # Main entry point
 ├── config/
 │   └── settings.yaml       # Configuration
@@ -93,11 +93,11 @@ job_preferences:
     - "Data Platform Engineer"
     - "Analytics Engineer"
   locations:
-    priority:      # EU countries (searched first)
+    priority:
       - "Poland"
       - "Spain"
       - "Germany"
-    secondary:     # UAE locations
+    secondary:
       - "Dubai"
       - "Abu Dhabi"
   max_age_days: 30  # Only jobs posted within last 30 days
