@@ -28,6 +28,7 @@ data/jobs.db
 
 # Generated resumes (contain personal info)
 data/resumes/*.docx
+Gokul CV.pdf
 
 # Config with secrets (users should copy from template)
 config/settings.yaml
