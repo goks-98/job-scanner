@@ -21,6 +21,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Any
 import logging
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -59,8 +60,29 @@ def get_scraper(name: str, config: dict):
     return scraper_class(config)
 
 
+def run_single_scraper(name: str, config: dict, logger: logging.Logger) -> List[Dict[str, Any]]:
+    """
+    Run a single scraper and return results.
+    Helper function for parallel execution.
+    """
+    try:
+        logger.info(f"Starting {name} scraper...")
+        with get_scraper(name, config) as scraper:
+            jobs = scraper.scrape()
+            
+            # Convert Job objects to dicts
+            job_dicts = [job.to_dict() for job in jobs]
+            
+            logger.info(f"{name}: Found {len(jobs)} matching jobs")
+            return job_dicts
+            
+    except Exception as e:
+        logger.error(f"Error running {name} scraper: {e}")
+        return []
+
+
 def run_scrapers(config: dict, logger: logging.Logger, 
-                scrapers: List[str] = None) -> List[Dict[str, Any]]:
+                scrapers: List[str] = None, max_workers: int = 3) -> List[Dict[str, Any]]:
     """
     Run all enabled scrapers and collect jobs.
     
@@ -68,6 +90,7 @@ def run_scrapers(config: dict, logger: logging.Logger,
         config: Configuration dictionary
         logger: Logger instance
         scrapers: Optional list of specific scrapers to run
+        max_workers: Maximum number of concurrent scrapers
         
     Returns:
         List of job dictionaries
@@ -80,23 +103,24 @@ def run_scrapers(config: dict, logger: logging.Logger,
     else:
         scraper_names = list(SCRAPER_CLASSES.keys())
     
-    for name in scraper_names:
-        try:
-            logger.info(f"Running {name} scraper...")
-            
-            with get_scraper(name, config) as scraper:
-                jobs = scraper.scrape()
-                
-                # Convert Job objects to dicts
-                job_dicts = [job.to_dict() for job in jobs]
-                all_jobs.extend(job_dicts)
-                
-                logger.info(f"{name}: Found {len(jobs)} matching jobs")
-                
-        except Exception as e:
-            logger.error(f"Error running {name} scraper: {e}")
-            continue
+    logger.info(f"Running {len(scraper_names)} scrapers with {max_workers} workers...")
     
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        # Submit all scraper tasks
+        future_to_name = {
+            executor.submit(run_single_scraper, name, config, logger): name 
+            for name in scraper_names
+        }
+        
+        # Process results as they complete
+        for future in as_completed(future_to_name):
+            name = future_to_name[future]
+            try:
+                jobs = future.result()
+                all_jobs.extend(jobs)
+            except Exception as e:
+                logger.error(f"Scraper {name} generated an exception: {e}")
+                
     return all_jobs
 
 
@@ -190,6 +214,8 @@ def main():
                        help='Skip sending email notification')
     parser.add_argument('--no-resume', action='store_true',
                        help='Skip generating resumes')
+    parser.add_argument('--workers', type=int, default=3,
+                       help='Maximum number of parallel scrapers (default: 3)')
     parser.add_argument('--verbose', '-v', action='store_true',
                        help='Enable verbose logging')
     
@@ -250,7 +276,7 @@ def main():
     try:
         # Run scrapers
         logger.info("Starting job scan...")
-        jobs = run_scrapers(config, logger, args.only)
+        jobs = run_scrapers(config, logger, args.only, args.workers)
         
         if not jobs:
             logger.info("No matching jobs found")

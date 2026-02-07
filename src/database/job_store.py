@@ -34,7 +34,7 @@ class JobModel(Base):
     is_uae = Column(Boolean, default=False)
     scraped_at = Column(DateTime, default=datetime.now)
     notified = Column(Boolean, default=False)
-    notified_at = Column(DateTime)
+    notified_at = Column(DateTime, default=datetime.now)
     resume_generated = Column(Boolean, default=False)
     resume_path = Column(String(500))
 
@@ -83,6 +83,21 @@ class JobStore:
             requirements = json.dumps(job_data.get('requirements', []))
             keywords = json.dumps(job_data.get('keywords', []))
             
+            # Handle date fields (convert string to datetime if needed)
+            posted_date = job_data.get('posted_date')
+            if isinstance(posted_date, str):
+                try:
+                    posted_date = datetime.fromisoformat(posted_date)
+                except ValueError:
+                    posted_date = None
+                    
+            scraped_at = job_data.get('scraped_at', datetime.now())
+            if isinstance(scraped_at, str):
+                try:
+                    scraped_at = datetime.fromisoformat(scraped_at)
+                except ValueError:
+                    scraped_at = datetime.now()
+            
             job = JobModel(
                 id=job_data['id'],
                 title=job_data['title'],
@@ -90,12 +105,12 @@ class JobStore:
                 location=job_data.get('location', ''),
                 description=job_data.get('description', ''),
                 url=job_data.get('url', ''),
-                posted_date=job_data.get('posted_date'),
+                posted_date=posted_date,
                 requirements=requirements,
                 keywords=keywords,
                 is_eu=job_data.get('is_eu', False),
                 is_uae=job_data.get('is_uae', False),
-                scraped_at=job_data.get('scraped_at', datetime.now())
+                scraped_at=scraped_at
             )
             
             self.session.add(job)
