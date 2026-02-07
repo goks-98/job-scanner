@@ -1,12 +1,10 @@
 # FAANG Job Scanner & ATS Resume Generator
 
-Automatically scan Data Engineer positions from Big Tech company career pages, filter for EU/UAE locations, generate ATS-optimized resumes tailored to each job, and receive email notifications.
+Automatically scan Data Engineer positions from Big Tech company career pages, generate ATS-optimized resumes tailored to each job, and receive email notifications.
 
 ## Features
 
 - 🔍 **Multi-source Job Scanning**: Scrapes Google, Meta, Apple, Netflix, LinkedIn, Bayt, and GulfTalent
-- 🇪🇺 **EU Priority**: Filters and prioritizes jobs in European Union countries
-- 🇦🇪 **UAE Support**: Also scans local UAE job boards
 - 📄 **ATS Resume Generation**: Creates tailored .docx resumes for each job posting
 - 📧 **Email Notifications**: Sends job alerts with attached resumes via Gmail
 
@@ -27,7 +25,7 @@ Edit `config/settings.yaml`:
 email:
   sender: "your-email@gmail.com"
   password: "your-gmail-app-password"  # See below for setup
-  recipient: "gokul12cool@gmail.com"
+  recipient: "your-email@gmail.com"
 ```
 
 ### 3. Set Up Gmail App Password
@@ -116,10 +114,6 @@ job_preferences:
 - Ensure you're using an App Password, not your regular password
 - Check that 2FA is enabled on your Google account
 - Verify the sender email in settings.yaml
-
-### Resume Generation Issues
-- Ensure `Gokul CV.pdf` is in the project root
-- Check that python-docx is installed correctly
 
 ## License
 
