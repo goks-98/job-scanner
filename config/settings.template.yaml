@@ -34,26 +34,11 @@ scrapers:
     - name: "google"
       enabled: true
       base_url: "https://www.google.com/about/careers/applications/jobs/results"
-    - name: "meta"
-      enabled: true
-      base_url: "https://www.metacareers.com/jobs"
-    - name: "apple"
-      enabled: true
-      base_url: "https://jobs.apple.com/en-us/search"
-    - name: "netflix"
-      enabled: true
-      base_url: "https://jobs.netflix.com/search"
   
   uae:
     - name: "linkedin"
       enabled: true
       base_url: "https://www.linkedin.com/jobs/search"
-    - name: "bayt"
-      enabled: true
-      base_url: "https://www.bayt.com/en/uae/jobs"
-    - name: "gulftalent"
-      enabled: true
-      base_url: "https://www.gulftalent.com/jobs"
 
 # Output settings
 output:
